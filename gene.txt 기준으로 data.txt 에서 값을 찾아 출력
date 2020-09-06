@@ -1,0 +1,70 @@
+$ cat gene.txt
+APOB
+CFTR
+PIK3CA
+NOTCH1
+
+$ cat data.txt
+APOB  22.3
+PIK3A 31.8
+PLD1  14.2 
+NOTCH1  24.7
+
+# 예시 출력
+APOB  22.3
+CFTR  NA
+PIK3A 31.8
+NOTCH1  24.7
+_______________________________________________________________________________________
+
+l_gene = [] # 빈 리스트 l_gene 초기화
+
+with open('gene.txt', 'r') as gene: # 'gene.txt' File을 읽기 권한(r, read)으로 불러오기
+    for line in gene: # gene 에 있는 line들에 대해 반복문 수행
+        line = line.replace('\n', '') # '\n'을 ''로 replace
+        l_gene.append(line) # replaced line을 l_gene에 append(추가)
+        
+l_data = [] # 빈 리스트 l_data 초기화 -> [('name1', 'value1'), ('name2', 'value2'), ...] 생성
+with open('data.txt', 'r') as data: # data 들어있는 File을 읽기권한으로 불러오기
+    for line2 in data:
+        line2 = line2.replace('\n', '')
+        line2 = line2.split('\t') # name   value 을 나누기 
+        l_data.append(line2) # 리스트 l_data 에 replace/split 된 line2 append(추가)
+        
+l_data_name = [] 
+l_data_value = [] # 'data.txt' file 내의 value들만 가져오기 위해 빈 리스트 l_data_value 초기화
+
+for i in l_data: # l_data에 있는 ('name', 'value') 형식의 i 에 대해서 반복문 수행
+    l_data_name.append(i[0]) # 리스트 l_data_name 에 'name' 들을 append(추가)
+    l_data_value.append(i[1]) # 리스트 l_data_value 에 'value' 들을 append(추가)
+    
+l_result = []
+for j in l_gene: # value를 원하는 gene name이 있는 l_gene내의 요소 j 에 대해 반복문 진행
+    if j in l_data_name: # 원하는 gene name이 가지고 있는 data name에 있으면
+        ind_j = l_data_name.index(j) 
+        l_result.append(l_data[ind_j])
+        
+    else:
+        l_result.append([j, 'NA'])
+
+print('\n'
+    ,l_result[0][0], '\t', l_result[0][1], '\n'
+    ,l_result[1][0], '\t', l_result[1][1], '\n'
+    ,l_result[2][0], '\t', l_result[2][1], '\n'
+    ,l_result[3][0], '\t', l_result[3][1], '\n')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
